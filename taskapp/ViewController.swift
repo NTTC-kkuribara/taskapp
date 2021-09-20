@@ -97,7 +97,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     // 選択したカテゴリに該当するタスクを検索し、テーブルビューを再表示
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         let predicate = NSPredicate(format: "category = %@", searchCategory.text!)
         taskArray = realm.objects(Task.self).filter(predicate)
         //tableViewを再読み込みする
