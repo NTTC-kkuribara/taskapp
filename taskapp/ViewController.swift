@@ -9,9 +9,10 @@ import UIKit
 import RealmSwift   // ←追加
 import UserNotifications    // 追加
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchCategory: UISearchBar!
     
     // Realmインスタンスを取得する
     let realm = try! Realm()  // ←追加
@@ -27,7 +28,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        searchCategory.delegate = self
     }
+
     // データの数（＝セルの数）を返すメソッド
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return taskArray.count  // ←修正する
@@ -89,6 +93,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
         } // --- ここまで変更 ---
+    }
+    
+    
+    // 選択したカテゴリに該当するタスクを検索し、テーブルビューを再表示
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        let predicate = NSPredicate(format: "category = %@", searchCategory.text!)
+        taskArray = realm.objects(Task.self).filter(predicate)
+        //tableViewを再読み込みする
+        tableView.reloadData()
     }
     
     // segue で画面遷移する時に呼ばれる
