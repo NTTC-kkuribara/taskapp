@@ -52,7 +52,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="D4d-fv-oBz">
+                            <searchBar contentMode="redraw" placeholder="カテゴリを入力してEnterキーを押す" translatesAutoresizingMaskIntoConstraints="NO" id="D4d-fv-oBz">
                                 <rect key="frame" x="0.0" y="129" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>

@@ -96,10 +96,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    // 選択したカテゴリに該当するタスクを検索し、テーブルビューを再表示
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        let predicate = NSPredicate(format: "category = %@", searchCategory.text!)
-        taskArray = realm.objects(Task.self).filter(predicate)
+    // SearchBarに検索カテゴリを入力しEnterを押すことでテーブルビューを再表示
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
+        // SearchBarが空欄でなければフィルタリングの上、TaskArrayの中身を置き換え(空欄の場合は切り戻し）
+        if searchCategory.text != "" {
+            let predicate = NSPredicate(format: "category = %@", searchCategory.text!)
+            taskArray = realm.objects(Task.self).filter(predicate)
+        } else {
+            taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: true)
+        }
         //tableViewを再読み込みする
         tableView.reloadData()
     }
